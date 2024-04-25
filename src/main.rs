@@ -1,10 +1,6 @@
-use rust_test::number::kids_with_candies;
-use rust_test::number::minimum_sum;
-use rust_test::vector::build_array;
-use rust_test::vector::get_concatenation;
-use rust_test::vector::maximum_wealth;
-use rust_test::vector::running_sum;
-use rust_test::vector::shuffle;
+use rust_test::iter::*;
+use rust_test::number::*;
+use rust_test::vector::*;
 
 fn main() {
     fn print_vector_answer() {
@@ -28,6 +24,30 @@ fn main() {
         println!("Answer 5: 아직 정답을 찾지 못함");
     }
 
+    fn print_iterations_answer() {
+        println!("*****Iterations****************************");
+        println!(
+            "Answer 1: {:?}",
+            final_value_after_operations(vec![
+                "--X".to_string(),
+                "X++".to_string(),
+                "X++".to_string()
+            ])
+        );
+        println!("Answer 2: {:?}", number_of_steps(14));
+        println!(
+            "Answer 3: {:?}",
+            create_target_array(vec![0, 1, 2, 3, 4], vec![0, 1, 2, 2, 1])
+        );
+        println!("Answer 4: {:?}", number_of_matches(7));
+        println!(
+            "Answer 5: {:?}",
+            min_moves_to_seat(vec![3, 1, 5], vec![2, 7, 4])
+        );
+    }
+
     print_vector_answer();
     print_number_answer();
+
+    print_iterations_answer();
 }
