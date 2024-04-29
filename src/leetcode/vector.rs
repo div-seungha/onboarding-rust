@@ -1,29 +1,20 @@
 // Vector - 1
 #[must_use]
-pub fn get_concatenation(nums: &[i32]) -> Vec<i32> {
-    let mut ans: Vec<i32> = Vec::new();
-    let nums_len: usize = nums.len();
-    let ans_len: usize = nums_len * 2;
-    for i in 0..ans_len {
-        if i < nums_len {
-            ans.push(nums[i]);
-        } else if i >= nums_len && i < 2 * nums_len {
-            ans.push(nums[i - nums_len]);
-        }
-    }
-    ans
+pub fn get_concatenation(nums: Vec<i32>) -> Vec<i32> {
+    let ans_1 = nums.as_slice();
+    let ans_2 = nums.as_slice();
+
+    [ans_1, ans_2].concat()
 }
+
 // Vector - 2
 #[must_use]
-pub fn build_array(nums: &[i32]) -> Vec<i32> {
-    let mut ans: Vec<i32> = Vec::new();
-    let nums_len = nums.len();
-    for i in 0..nums_len - 1 {
-        let val = nums[i] as usize;
-        ans.push(nums[val]);
-    }
-    ans
+pub fn build_array(nums: Vec<i32>) -> Vec<i32> {
+    nums.iter()
+        .map(|&x| *nums.get(x as usize).unwrap_or(&0))
+        .collect()
 }
+
 // Vector - 3
 #[must_use]
 pub fn running_sum(nums: &[i32]) -> Vec<i32> {
@@ -35,19 +26,19 @@ pub fn running_sum(nums: &[i32]) -> Vec<i32> {
     }
     ans
 }
+
 // Vector - 4
 #[must_use]
 pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
     let mut sum_arr: Vec<i32> = vec![];
     for item in accounts {
-        sum_arr.push(item.iter().sum());
+        sum_arr.push(item.iter().sum())
     }
     *sum_arr.iter().max().unwrap()
 }
 
 // Vector - 5
-#[must_use]
-pub fn shuffle(nums: &[i32], _n: i32) -> Vec<i32> {
+pub fn shuffle(nums: Vec<i32>, _n: i32) -> Vec<i32> {
     let len: usize = nums.len();
     let len_half: usize = nums.len() / 2;
     let mut ans = vec![];
@@ -65,5 +56,6 @@ pub fn shuffle(nums: &[i32], _n: i32) -> Vec<i32> {
             ans.push(inner_arr);
         }
     }
+
     ans.into_iter().flatten().collect()
 }
