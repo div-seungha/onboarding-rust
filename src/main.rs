@@ -1,5 +1,7 @@
+use rust_test::encode_decode::*;
 use rust_test::iter::*;
 use rust_test::number::*;
+use rust_test::string::*;
 use rust_test::vector::*;
 
 fn main() {
@@ -90,8 +92,30 @@ fn main() {
         );
     }
 
+    fn print_encode_decode_answer() {
+        println!("*****Encode-Decode****************************");
+        println!("Answer 1: {:?}", decode(vec![1, 2, 3], 1));
+        println!("Answer 2: {:?}", decompress_rl_elist(vec![1, 2, 3, 4]));
+        println!(
+            "Answer 3: {:?}",
+            restore_string("codeleet".to_string(), vec![4, 5, 6, 7, 0, 2, 1, 3])
+        );
+        println!(
+            "Answer 4: {:?}",
+            decode_message(
+                "the quick brown fox jumps over the lazy dog".to_string(),
+                "vkbs bs t suepuv".to_string()
+            )
+        );
+        println!(
+            "Answer 5: {:?}",
+            get_decimal_value(Option::<Box<ListNode>>::None)
+        );
+    }
+
     print_vector_answer();
     print_number_answer();
     print_string_answer();
     print_iterations_answer();
+    print_encode_decode_answer();
 }

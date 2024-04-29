@@ -36,7 +36,7 @@ pub fn sort_sentence(s: String) -> String {
         let last_char = w_ans.pop().unwrap().to_string();
         let idx = last_char.parse::<usize>().unwrap();
 
-        let (ans_word, last_char) = word.split_at(word.len() - 1);
+        let (ans_word, _) = word.split_at(word.len() - 1);
         words[idx - 1] = ans_word;
     }
 
