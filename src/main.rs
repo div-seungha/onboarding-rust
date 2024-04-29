@@ -113,6 +113,8 @@ fn main() {
         );
     }
 
+    smaller_numbers_than_current(vec![8, 2, 1, 2, 3]);
+
     print_vector_answer();
     print_number_answer();
     print_string_answer();
