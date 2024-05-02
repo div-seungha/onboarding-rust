@@ -45,19 +45,7 @@ pub fn subtract_product_and_sum(n: i32) -> i32 {
 // Number - 5
 #[must_use]
 pub fn smaller_numbers_than_current(nums: &[i32]) -> Vec<i32> {
-    let mut ans = vec![];
-
-    for a in 0..nums.len() {
-        let mut b = 0;
-
-        for c in 0..nums.len() {
-            if a != c && nums[a] > nums[c] {
-                b += 1;
-            }
-        }
-
-        ans.push(b);
-    }
-
-    ans
+    nums.iter()
+        .map(|i| nums.iter().filter(|j| j < &i).count().try_into().unwrap())
+        .collect()
 }
