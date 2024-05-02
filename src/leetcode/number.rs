@@ -1,21 +1,10 @@
 // Number - 1
 #[must_use]
 pub fn minimum_sum(num: i32) -> i32 {
-    let unit = vec![1000, 100, 10, 1];
-    let mut digit_num_arr = vec![];
-    let mut digit = num;
+    let mut digits = [num % 10, num / 10 % 10, num / 100 % 10, num / 1000 % 10];
+    digits.sort_by_key(|&x| x);
 
-    for item in unit {
-        digit_num_arr.push(digit / item);
-        digit %= item;
-    }
-
-    digit_num_arr.sort_unstable();
-
-    let min = digit_num_arr[0] * 10 + digit_num_arr[3];
-    let min_2 = digit_num_arr[1] * 10 + digit_num_arr[2];
-
-    min + min_2
+    (digits[0] * 10 + digits[3]) + (digits[1] * 10 + digits[2])
 }
 
 // Number - 2
