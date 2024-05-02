@@ -1,7 +1,8 @@
 use std::collections::HashMap;
 
 // encode-decode - 1
-pub fn decode(encoded: Vec<i32>, first: i32) -> Vec<i32> {
+#[must_use]
+pub fn decode(encoded: &[i32], first: i32) -> Vec<i32> {
     let mut first_m = first;
     let mut arr = vec![first_m];
     for i in 0..encoded.len() {
@@ -12,7 +13,8 @@ pub fn decode(encoded: Vec<i32>, first: i32) -> Vec<i32> {
 }
 
 // encode-decode - 2
-pub fn decompress_rl_elist(nums: Vec<i32>) -> Vec<i32> {
+#[must_use]
+pub fn decompress_rl_elist(nums: &[i32]) -> Vec<i32> {
     let n = nums.len() / 2;
     let mut ans = vec![];
     for i in 0..n {
@@ -24,11 +26,12 @@ pub fn decompress_rl_elist(nums: Vec<i32>) -> Vec<i32> {
 }
 
 // encode-decode - 3 --> 정답 아님
-pub fn restore_string(s: String, indices: Vec<i32>) -> String {
+#[must_use]
+pub fn restore_string(s: &str, indices: &[i32]) -> String {
     let mut ans = vec![""; indices.len()];
     let mut s_vec: Vec<&str> = s.split("").collect();
 
-    s_vec.pop().unwrap();
+    s_vec.pop();
     s_vec.drain(0..1);
 
     for i in 0..indices.len() - 1 {
@@ -40,7 +43,8 @@ pub fn restore_string(s: String, indices: Vec<i32>) -> String {
 }
 
 // encode-decode - 4
-pub fn decode_message(key: String, message: String) -> String {
+#[must_use]
+pub fn decode_message(key: &str, message: &str) -> String {
     let mut d = HashMap::new();
     for c in key.as_bytes() {
         if *c == b' ' || d.contains_key(c) {
@@ -67,14 +71,16 @@ pub struct ListNode {
 
 impl ListNode {
     #[inline]
+    #[must_use]
     pub fn new(val: i32) -> Self {
         ListNode { next: None, val }
     }
 }
 
-pub fn get_decimal_value(head: Option<Box<ListNode>>) -> i32 {
+#[must_use]
+pub fn get_decimal_value(head: &Option<Box<ListNode>>) -> i32 {
     let mut ans = 0;
-    let mut cur = &head;
+    let mut cur = head;
     while let Some(node) = cur {
         ans = (ans << 1) | node.val;
         cur = &node.next;

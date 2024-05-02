@@ -1,48 +1,53 @@
- // Vector - 1
-pub fn get_concatenation(nums: Vec<i32>) -> Vec<i32> {
+// Vector - 1
+#[must_use]
+pub fn get_concatenation(nums: &[i32]) -> Vec<i32> {
     let mut ans: Vec<i32> = Vec::new();
     let nums_len: usize = nums.len();
     let ans_len: usize = nums_len * 2;
     for i in 0..ans_len {
         if i < nums_len {
-            ans.push(nums[i])
+            ans.push(nums[i]);
         } else if i >= nums_len && i < 2 * nums_len {
-            ans.push(nums[i - nums_len])
+            ans.push(nums[i - nums_len]);
         }
-    };
+    }
     ans
 }
 // Vector - 2
-pub fn build_array(nums: Vec<i32>) -> Vec<i32> {
+#[must_use]
+pub fn build_array(nums: &[i32]) -> Vec<i32> {
     let mut ans: Vec<i32> = Vec::new();
     let nums_len = nums.len();
     for i in 0..nums_len - 1 {
-        let val: usize;
-        val = nums[i] as usize;
-        ans.push(nums[val])
+        let val = nums[i] as usize;
+        ans.push(nums[val]);
     }
     ans
 }
 // Vector - 3
-pub fn running_sum(nums: Vec<i32>) -> Vec<i32> {
+#[must_use]
+pub fn running_sum(nums: &[i32]) -> Vec<i32> {
     let size = nums.len();
     let mut ans: Vec<i32> = vec![];
     ans.push(nums[0]);
     for i in 1..size {
-       ans.push(ans[i - 1] + nums[i])
+        ans.push(ans[i - 1] + nums[i]);
     }
     ans
 }
 // Vector - 4
+#[must_use]
 pub fn maximum_wealth(accounts: Vec<Vec<i32>>) -> i32 {
     let mut sum_arr: Vec<i32> = vec![];
-     for item in accounts {
-        sum_arr.push(item.iter().sum())
-     }
-     *sum_arr.iter().max().unwrap()
- }
- // Vector - 5
-pub fn shuffle(nums: Vec<i32>, _n: i32) -> Vec<i32> {
+    for item in accounts {
+        sum_arr.push(item.iter().sum());
+    }
+    *sum_arr.iter().max().unwrap()
+}
+
+// Vector - 5
+#[must_use]
+pub fn shuffle(nums: &[i32], _n: i32) -> Vec<i32> {
     let len: usize = nums.len();
     let len_half: usize = nums.len() / 2;
     let mut ans = vec![];
@@ -51,13 +56,13 @@ pub fn shuffle(nums: Vec<i32>, _n: i32) -> Vec<i32> {
     for i in 0..len_half {
         let mut inner_arr = vec![];
         if i < len_half {
-        inner_arr.push(first[i]);
-        inner_arr.push(second[i]);
-        ans.push(inner_arr);
+            inner_arr.push(first[i]);
+            inner_arr.push(second[i]);
+            ans.push(inner_arr);
         } else {
-            inner_arr.push(first[i-1]);
-            inner_arr.push(second[i-1]);
-            ans.push(inner_arr)
+            inner_arr.push(first[i - 1]);
+            inner_arr.push(second[i - 1]);
+            ans.push(inner_arr);
         }
     }
     ans.into_iter().flatten().collect()

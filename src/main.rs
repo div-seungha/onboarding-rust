@@ -7,35 +7,38 @@ use rust_test::vector::*;
 fn main() {
     fn print_vector_answer() {
         println!("*****Vector****************************");
-        println!("Answer 1: {:?}", get_concatenation(vec![1, 2, 3, 4, 5]));
-        println!("Answer 2: {:?}", build_array(vec![1, 2, 3, 4, 5]));
-        println!("Answer 3: {:?}", running_sum(vec![1, 2, 3, 4, 5]));
+        println!(
+            "Answer 1: {:?}",
+            get_concatenation([1, 2, 3, 4, 5].as_slice())
+        );
+        println!("Answer 2: {:?}", build_array([1, 2, 3, 4, 5].as_slice()));
+        println!("Answer 3: {:?}", running_sum([1, 2, 3, 4, 5].as_slice()));
         println!(
             "Answer 4: {:?}",
             maximum_wealth(vec![vec![1, 2], vec![3, 4,], vec![5, 6]])
         );
-        println!("Answer 5: {:?}", shuffle(vec![1, 2, 3, 4, 5], 3));
+        println!("Answer 5: {:?}", shuffle([1, 2, 3, 4, 5].as_slice(), 3));
     }
 
     fn print_number_answer() {
         println!("*****Number****************************");
         println!("Answer 1: {:?}", minimum_sum(3469));
-        println!("Answer 2: 아직 정답을 찾지 못함");
-        println!("Answer 3: {:?}", kids_with_candies(vec![2, 4, 3, 6, 8], 5));
-        println!("Answer 4: 아직 정답을 찾지 못함");
-        println!("Answer 5: 아직 정답을 찾지 못함");
+        println!("Answer 2: {:?}", "");
+        println!(
+            "Answer 3: {:?}",
+            kids_with_candies([2, 4, 3, 6, 8].as_slice(), 5)
+        );
+        println!("Answer 4: {:?}", subtract_product_and_sum(123));
+        println!(
+            "Answer 5: {:?}",
+            smaller_numbers_than_current([1, 2, 3, 4, 5].as_slice())
+        );
     }
 
     fn print_string_answer() {
         println!("*****String****************************");
-        println!(
-            "Answer 1: {:?}",
-            defang_i_paddr("101.204.305.506".to_string())
-        );
-        println!(
-            "Answer 2: {:?}",
-            num_jewels_in_stones("aBcEX".to_string(), "aaaCCBBBX".to_string())
-        );
+        println!("Answer 1: {:?}", defang_i_paddr("101.204.305.506"));
+        println!("Answer 2: {:?}", num_jewels_in_stones("aBcEX", "aaaCCBBBX"));
         println!(
             "Answer 3: {:?}",
             most_words_found(vec![
@@ -44,10 +47,7 @@ fn main() {
                 "this is great thanks very much".to_string()
             ])
         );
-        println!(
-            "Answer 4: {:?}",
-            sort_sentence("sentence4 a3 is2 This1".to_string())
-        );
+        println!("Answer 4: {:?}", sort_sentence("sentence4 a3 is2 This1"));
         println!(
             "Answer 5: {:?}",
             count_matches(
@@ -64,8 +64,8 @@ fn main() {
                         "iphone".to_string()
                     ]
                 ],
-                "color".to_string(),
-                "silver".to_string()
+                "color",
+                "silver"
             )
         )
     }
@@ -83,7 +83,7 @@ fn main() {
         println!("Answer 2: {:?}", number_of_steps(14));
         println!(
             "Answer 3: {:?}",
-            create_target_array(vec![0, 1, 2, 3, 4], vec![0, 1, 2, 2, 1])
+            create_target_array([0, 1, 2, 3, 4].as_slice(), [0, 1, 2, 2, 1].as_slice())
         );
         println!("Answer 4: {:?}", number_of_matches(7));
         println!(
@@ -94,26 +94,27 @@ fn main() {
 
     fn print_encode_decode_answer() {
         println!("*****Encode-Decode****************************");
-        println!("Answer 1: {:?}", decode(vec![1, 2, 3], 1));
-        println!("Answer 2: {:?}", decompress_rl_elist(vec![1, 2, 3, 4]));
+        println!("Answer 1: {:?}", decode([1, 2, 3].as_slice(), 1));
+        println!(
+            "Answer 2: {:?}",
+            decompress_rl_elist([1, 2, 3, 4].as_slice())
+        );
         println!(
             "Answer 3: {:?}",
-            restore_string("codeleet".to_string(), vec![4, 5, 6, 7, 0, 2, 1, 3])
+            restore_string("codeleet", [4, 5, 6, 7, 0, 2, 1, 3].as_slice())
         );
         println!(
             "Answer 4: {:?}",
             decode_message(
-                "the quick brown fox jumps over the lazy dog".to_string(),
-                "vkbs bs t suepuv".to_string()
+                "the quick brown fox jumps over the lazy dog",
+                "vkbs bs t suepuv"
             )
         );
         println!(
             "Answer 5: {:?}",
-            get_decimal_value(Option::<Box<ListNode>>::None)
+            get_decimal_value(&Option::<Box<ListNode>>::None)
         );
     }
-
-    smaller_numbers_than_current(vec![8, 2, 1, 2, 3]);
 
     print_vector_answer();
     print_number_answer();
