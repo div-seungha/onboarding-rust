@@ -6,40 +6,44 @@ pub fn defang_i_paddr(address: &str) -> String {
 
 // String - 2
 #[must_use]
-pub fn num_jewels_in_stones(jewels: &str, stones: &str) -> i32 {
-    stones
-        .chars()
-        .zip(jewels.chars())
-        .fold(0, |mut acc, (i, j)| {
-            if i == j {
-                acc += 1
-            }
-            acc
-        })
+pub fn num_jewels_in_stones(jewels: &str, stones: &str) -> usize {
+    let mut ans = stones.chars().collect::<Vec<char>>();
+    ans.retain(|x| *x == jewels.chars().next().unwrap());
+
+    ans.len()
 }
 
 // String - 3
 #[must_use]
-pub fn most_words_found(sentences: Vec<String>) -> i32 {
+pub fn most_words_found(sentences: Vec<String>) -> Option<usize> {
     sentences.iter().map(|x| x.split("' '").count()).max()
-    // 문제는 리턴 타입 i32를 요구하는데 usize 타입을 i32로 바꾸는 방법을 생각하는 게 쉽지 않습니다...ㅠㅠ
 }
 
 // String - 4
 #[must_use]
 pub fn sort_sentence(s: &str) -> String {
-    let mut words = vec![""; s.split("' '").count()];
+    let mut a = s
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .iter()
+        .map(|word| {
+            let c = word.rsplit("").collect::<Vec<&str>>().to_vec()[1];
+            // 아래에서 c를 숫자 타입으로 변환시켜서 sort를 돌리려고 했는데
+            // 아무리 머리를 굴리고 검색을 해 봐도 unwrap() 메서드 말고는 생각이 안 납니다...
+            // 그런데 여기서 unwrap()을 쓰면, 윗줄에서 split_whitespace로 쪼갠 단어들을 다시 거꾸로 알파벳별로 쪼개서 벡터로 만드는데
+            // 1번 인덱스를 사용한 이유는 println!을 써서 실제로 rsplit의 결과물을 확인한 다음에 넣은 코드이지만
+            // 1번 인덱스에 parse할 수 있는 무엇이 없으면 패닉에 빠지므로 이것조차 완전한 방법이 아닙니다...ㅠㅠ
+            let t_data = (&word[..word.len() - 1], c.parse::<usize>().unwrap());
+            t_data
+        })
+        .collect::<Vec<(&str, usize)>>();
 
-    for word in s.split("' '") {
-        let mut w_ans = word.to_owned();
-        let last_char = w_ans.pop().unwrap().to_string();
-        let idx = last_char.parse::<usize>().unwrap();
+    a.sort_by_key(|&(_word, num)| num);
 
-        let (ans_word, _) = word.split_at(word.len() - 1);
-        words[idx - 1] = ans_word;
-    }
-
-    words.join(" ")
+    a.iter()
+        .map(|(word, _)| word.to_string())
+        .collect::<Vec<String>>()
+        .join(" ")
 }
 
 // String - 5
