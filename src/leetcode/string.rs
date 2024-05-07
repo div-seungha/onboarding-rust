@@ -7,27 +7,22 @@ pub fn defang_i_paddr(address: &str) -> String {
 // String - 2
 #[must_use]
 pub fn num_jewels_in_stones(jewels: &str, stones: &str) -> i32 {
-    let mut num = 0;
-    for char in stones.chars() {
-        for j in jewels.chars() {
-            if char == j {
-                num += 1;
+    stones
+        .chars()
+        .zip(jewels.chars())
+        .fold(0, |mut acc, (i, j)| {
+            if i == j {
+                acc += 1
             }
-        }
-    }
-    num
+            acc
+        })
 }
 
 // String - 3
 #[must_use]
 pub fn most_words_found(sentences: Vec<String>) -> i32 {
-    let mut num_words = vec![];
-
-    for s in sentences {
-        num_words.push(s.split("' '").collect::<Vec<&str>>().len() as i32);
-    }
-
-    *num_words.iter().max().unwrap()
+    sentences.iter().map(|x| x.split("' '").count()).max()
+    // 문제는 리턴 타입 i32를 요구하는데 usize 타입을 i32로 바꾸는 방법을 생각하는 게 쉽지 않습니다...ㅠㅠ
 }
 
 // String - 4
