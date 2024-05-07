@@ -16,7 +16,7 @@ pub fn num_jewels_in_stones(jewels: &str, stones: &str) -> usize {
 // String - 3
 #[must_use]
 pub fn most_words_found(sentences: Vec<String>) -> Option<usize> {
-    sentences.iter().map(|x| x.split("' '").count()).max()
+    sentences.iter().map(|x| x.split_whitespace().count()).max()
 }
 
 // String - 4
