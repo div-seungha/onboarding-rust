@@ -1,10 +1,7 @@
 // Vector - 1
 #[must_use]
 pub fn get_concatenation(nums: &[i32]) -> Vec<i32> {
-    let ans_1 = nums;
-    let ans_2 = nums;
-
-    [ans_1, ans_2].concat()
+    [nums, nums].concat()
 }
 
 // Vector - 2
@@ -42,11 +39,11 @@ pub fn running_sum_fold(nums: &[i32]) -> Vec<i32> {
 
 // Vector - 4
 #[must_use]
-pub fn maximum_wealth(accounts: &[Vec<i32>]) -> i32 {
+pub fn maximum_wealth(accounts: &[Vec<i32>]) -> Option<i32> {
     accounts
         .iter()
-        .map(|account| account.iter().sum())
-        .fold(i32::min_value(), |max_sum, sum| max_sum.max(sum))
+        .map(|account| account.iter().sum::<i32>())
+        .max()
 }
 
 // Vector - 5
@@ -55,9 +52,7 @@ pub fn shuffle(nums: &[i32], _n: i32) -> Vec<i32> {
     let first = &nums[..len_half];
     let second = &nums[len_half..nums.len()];
 
-    first
-        .iter()
-        .zip(second.iter())
-        .flat_map(|(&x, &y)| vec![x, y])
+    (0..(nums.len() / 2))
+        .flat_map(|x| vec![first[x], second[x]])
         .collect()
 }
