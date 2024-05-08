@@ -6,10 +6,10 @@ pub fn get_concatenation(nums: &[i32]) -> Vec<i32> {
 
 // Vector - 2
 #[must_use]
-pub fn build_array(nums: &[usize]) -> Vec<&usize> {
+pub fn build_array(nums: &[usize]) -> Vec<usize> {
     nums.iter()
-        .filter_map(|&x| nums.get(x))
-        .collect::<Vec<&usize>>()
+        .filter_map(|&x| nums.get(x).cloned())
+        .collect::<Vec<usize>>()
 }
 
 // Vector - 3
@@ -47,12 +47,8 @@ pub fn maximum_wealth(accounts: &[Vec<i32>]) -> Option<i32> {
 }
 
 // Vector - 5
-pub fn shuffle(nums: &[i32], _n: i32) -> Vec<i32> {
-    let len_half = nums.len() / 2;
-    let first = &nums[..len_half];
-    let second = &nums[len_half..nums.len()];
-
-    (0..(nums.len() / 2))
-        .flat_map(|x| vec![first[x], second[x]])
+pub fn shuffle(nums: &[i32]) -> Vec<i32> {
+    (0..nums.len() / 2)
+        .flat_map(|x| vec![nums[x], nums[x + nums.len() / 2]])
         .collect()
 }
