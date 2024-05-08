@@ -6,10 +6,10 @@ pub fn get_concatenation(nums: &[i32]) -> Vec<i32> {
 
 // Vector - 2
 #[must_use]
-pub fn build_array(nums: &[i32]) -> Vec<i32> {
+pub fn build_array(nums: &[usize]) -> Vec<&usize> {
     nums.iter()
-        .filter_map(|&x| nums.get(x as usize).cloned())
-        .collect()
+        .filter_map(|&x| nums.get(x))
+        .collect::<Vec<&usize>>()
 }
 
 // Vector - 3
