@@ -1,15 +1,13 @@
 // iter - 1
 #[must_use]
 pub fn final_value_after_operations(operations: Vec<String>) -> i32 {
-    let mut ans = 0;
-    for s in operations.iter() {
+    operations.iter().fold(0, |acc, s| {
         if s.starts_with("'+'") || s.ends_with("'+'") {
-            ans += 1;
+            acc + 1
         } else {
-            ans -= 1;
-        };
-    }
-    ans
+            acc - 1
+        }
+    })
 }
 
 // iter - 2
@@ -31,12 +29,12 @@ pub fn number_of_steps(num: i32) -> i32 {
 // iter - 3
 #[must_use]
 pub fn create_target_array(nums: &[i32], index: &[i32]) -> Vec<i32> {
-    let mut ans: Vec<i32> = Vec::with_capacity(nums.len());
-    for i in 0..nums.len() {
-        ans.insert(index[i].try_into().unwrap(), nums[i]);
-    }
-
-    ans
+    nums.iter()
+        .zip(index.iter())
+        .fold(Vec::with_capacity(nums.len()), |mut acc, (&num, &idx)| {
+            acc.insert(idx as usize, num);
+            acc
+        })
 }
 
 // iter - 4
@@ -51,15 +49,12 @@ pub fn min_moves_to_seat(seats: Vec<i32>, students: Vec<i32>) -> i32 {
     let mut seats_m = seats;
     let mut students_m = students;
 
-    seats_m.sort_unstable();
-    students_m.sort_unstable();
+    seats_m.sort_by_key(|&a| a);
+    students_m.sort_by_key(|&b| b);
 
-    let n = seats_m.len();
-
-    let mut ans = 0;
-
-    for i in 0..n {
-        ans += (seats_m[i] - students_m[i]).abs();
-    }
-    ans
+    seats_m
+        .iter()
+        .zip(students_m.iter())
+        .map(|(&seat, &student)| (seat - student).abs())
+        .sum()
 }
