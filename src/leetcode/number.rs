@@ -8,44 +8,54 @@ pub fn minimum_sum(num: i32) -> i32 {
 }
 
 // Number - 2
+pub fn num_identical_pairs(nums: Vec<i32>) -> i32 {
+    use std::collections::HashMap;
+
+    nums.iter()
+        .fold((HashMap::new(), 0), |(mut a, mut b), &num| {
+            if let Some(&c) = a.get(&num) {
+                b += c;
+            }
+
+            *a.entry(num).or_insert(0) += 1;
+
+            (a, b)
+        })
+        .1
+}
 
 // Number - 3
 #[must_use]
 pub fn kids_with_candies(candies: &[i32], extra_candies: i32) -> Vec<bool> {
-    let mut ans = vec![];
+    let max_candies = candies.iter().max();
 
-    for item in candies {
-        let max_candies: i32 = item + extra_candies;
-        if max_candies >= candies.iter().copied().max().unwrap() {
-            ans.push(true);
-        } else {
-            ans.push(false);
-        }
-    }
+    let c = match max_candies {
+        Some(v) => v,
+        None => &0,
+    };
 
-    ans
+    candies
+        .iter()
+        .map(|&candy| candy + extra_candies >= *c) // Check if each child can have the most candies
+        .collect()
 }
 
 // Number - 4
 #[must_use]
-pub fn subtract_product_and_sum(n: i32) -> i32 {
-    let mut num = n;
-    let mut a = 1;
-    let mut b = 0;
+pub fn subtract_product_and_sum(n: i32) -> u32 {
+    let v = n.to_string();
+    let digits = v.chars().filter_map(|c| c.to_digit(10)).map(|d| d);
 
-    while num != 0 {
-        let c = num % 10;
-        num /= 10;
-        a *= c;
-        b += c;
-    }
-    a - b
+    let product: &u32 = &digits.clone().product();
+    let sum: &u32 = &digits.sum();
+
+    product - sum
 }
 
 // Number - 5
 #[must_use]
-pub fn smaller_numbers_than_current(nums: &[i32]) -> Vec<i32> {
+pub fn smaller_numbers_than_current(nums: &[i32]) -> Vec<usize> {
     nums.iter()
-        .map(|i| nums.iter().filter(|j| j < &i).count().try_into().unwrap())
+        .map(|i| nums.iter().filter(|j| j < &i).count())
         .collect()
 }
