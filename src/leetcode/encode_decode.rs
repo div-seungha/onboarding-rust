@@ -3,26 +3,23 @@ use std::collections::HashMap;
 // encode-decode - 1
 #[must_use]
 pub fn decode(encoded: &[i32], first: i32) -> Vec<i32> {
-    let mut first_m = first;
-    let mut arr = vec![first_m];
-    for i in 0..encoded.len() {
-        arr.push(first_m ^ encoded[i]);
-        first_m = arr[i + 1];
-    }
-    arr
+    encoded.iter().fold(vec![first], |mut acc, &x| {
+        let last = acc.last().cloned();
+        let v = match last {
+            Some(v) => v,
+            None => 0,
+        };
+        acc.push(v ^ x);
+        acc
+    })
 }
 
 // encode-decode - 2
 #[must_use]
 pub fn decompress_rl_elist(nums: &[i32]) -> Vec<i32> {
-    let n = nums.len() / 2;
-    let mut ans = vec![];
-    for i in 0..n {
-        for _ in 0..nums[2 * i] {
-            ans.push(nums[2 * i + 1]);
-        }
-    }
-    ans
+    nums.chunks(2)
+        .flat_map(|chunk| vec![chunk[1]; chunk[0] as usize])
+        .collect()
 }
 
 // encode-decode - 3 --> 정답 아님
