@@ -17,7 +17,7 @@ fn main() {
             "Answer 4: {:?}",
             maximum_wealth([vec![1, 2], vec![3, 4,], vec![5, 6]].as_slice())
         );
-        println!("Answer 5: {:?}", shuffle([1, 2, 3, 4, 5].as_slice(), 3));
+        println!("Answer 5: {:?}", shuffle([1, 2, 3, 4, 5].as_slice()));
     }
 
     fn print_number_answer() {
