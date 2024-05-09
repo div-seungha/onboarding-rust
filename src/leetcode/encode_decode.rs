@@ -76,11 +76,20 @@ impl ListNode {
 
 #[must_use]
 pub fn get_decimal_value(head: &Option<Box<ListNode>>) -> i32 {
-    let mut ans = 0;
-    let mut cur = head;
-    while let Some(node) = cur {
-        ans = (ans << 1) | node.val;
-        cur = &node.next;
+    let mut vec_n = vec![];
+    let _v = head.iter().map(|x| {
+        let x = if x.val == 1 { "1" } else { "0" };
+        vec_n.push(x);
+        x
+    });
+
+    let decimal_result = i32::from_str_radix(&vec_n.join(""), 2);
+
+    match decimal_result {
+        Ok(num) => num,
+        Err(err) => {
+            println!("Something is wrong_{:?}", err);
+            0
+        }
     }
-    ans
 }
