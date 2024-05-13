@@ -15,8 +15,12 @@ pub fn num_jewels_in_stones(jewels: &str, stones: &str) -> usize {
 
 // String - 3
 #[must_use]
-pub fn most_words_found(sentences: Vec<String>) -> Option<usize> {
-    sentences.iter().map(|x| x.split_whitespace().count()).max()
+pub fn most_words_found(sentences: Vec<String>) -> Result<usize, String> {
+    if let Some(v) = sentences.iter().map(|x| x.split_whitespace().count()).max() {
+        Ok(v)
+    } else {
+        Err(format!("The maximum number of words that appear in a single sentence is not exist. Check the input."))
+    }
 }
 
 // String - 4
