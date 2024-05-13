@@ -22,21 +22,17 @@ pub fn decompress_rl_elist(nums: &[i32]) -> Vec<i32> {
         .collect()
 }
 
-// encode-decode - 3 --> 정답 아님
+// encode-decode
 #[must_use]
-pub fn restore_string(s: &str, indices: &[i32]) -> String {
-    let mut ans = vec![""; indices.len()];
-    let mut s_vec: Vec<&str> = s.split("").collect();
+pub fn restore_string(s: &str, indices: &[usize]) -> String {
+    let mut shuffled = vec![' '; s.len()];
 
-    s_vec.pop();
-    s_vec.drain(0..1);
+    indices
+        .iter()
+        .zip(s.chars())
+        .for_each(|(&index, ch)| shuffled[index] = ch);
 
-    for i in 0..indices.len() - 1 {
-        let idx: usize = indices[i].try_into().unwrap();
-        ans[idx] = s_vec[i];
-    }
-
-    ans.join("")
+    shuffled.into_iter().collect()
 }
 
 // encode-decode - 4
@@ -53,7 +49,10 @@ pub fn decode_message(key: &str, message: &str) -> String {
     message
         .as_bytes()
         .iter()
-        .map(|c| d.get(c).unwrap_or(&' '))
+        .map(|c| match d.get(c) {
+            Some(v) => v,
+            None => &' ',
+        })
         .collect()
 }
 
