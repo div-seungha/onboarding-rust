@@ -1,84 +1,74 @@
 // Number - 1
 #[must_use]
-pub fn minimum_sum(num: i32) -> i32 {
-    fn is_four_digit(num: i32) -> Result<i32, String> {
-        if num >= 1000 && num <= 9999 {
-            Ok(num)
-        } else {
-            Err(format!(
-                "{} This function cannot control this parameter:",
-                num
-            ))
+pub fn minimum_sum(num: i32) -> Result<i32, String> {
+    if num >= 1000 && num <= 9999 {
+        let mut digit = num;
+        let unit = vec![1000, 100, 10, 1];
+        let mut digits = vec![];
+        for item in unit {
+            digits.push(digit / item);
+            digit = digit % item;
         }
+        Ok((digits[0] * 10 + digits[3]) + (digits[1] * 10 + digits[2]))
+    } else {
+        Err(format!(
+            "{} This function cannot control this parameter:",
+            num
+        ))
     }
-
-    let mut digit = match is_four_digit(num) {
-        Ok(v) => v,
-        Err(e) => {
-            println!("{}", e);
-            0
-        }
-    };
-
-    let unit = vec![1000, 100, 10, 1];
-    let mut digits = vec![];
-
-    for item in unit {
-        digits.push(digit / item);
-        digit = digit % item;
-    }
-
-    (digits[0] * 10 + digits[3]) + (digits[1] * 10 + digits[2])
 }
 
-// Number - 2
-pub fn num_identical_pairs(nums: Vec<u32>) -> u32 {
-    use std::collections::HashMap;
+// Number - 2 -- 현재 풀이 중 ---------------------------------------------
+// pub fn num_identical_pairs(nums: Vec<u32>) -> u32 {
+//     use std::collections::HashMap;
 
-    nums.iter()
-        .fold((HashMap::new(), 0), |(mut a, mut b), &num| {
-            if let Some(&c) = a.get(&num) {
-                b += c;
-            }
+//     for n in nums {
+//         let t = (HashMap::new(), 0);
+//         let v = 0;
+//     }
 
-            a.entry(num).and_modify(|v: &mut u32| *v += 1);
+//     nums.iter()
+//         .fold((HashMap::new(), 0), |(mut a, mut b), &num| {
+//             if let Some(&c) = a.get(&num) {
+//                 b += c;
+//             }
 
-            (a, b)
-        })
-        .1
-}
+//             a.entry(num).and_modify(|v| *v += 1);
+
+//             (a, b)
+//         })
+//         .1
+// }
 
 // Number - 2 - for
-pub fn num_identical_pairs_with_for(nums: Vec<u32>) -> u32 {
-    let mut count = 0;
+// pub fn num_identical_pairs_with_for(nums: Vec<u32>) -> u32 {
+//     let mut map = HashMap::new();
+//     let mut t = (map, 0);
 
-    for i in 0..nums.len() {
-        for j in i + 1..nums.len() {
-            if nums[i] == nums[j] {
-                count += 1;
-            }
-        }
-    }
-    count
-}
+//     for i in 0..nums.len() - 1 {
+//         if nums[i] == map.get(i) {
+//             t.entry(nums[i]).and_modify(|counter| *counter += 1);
+//         }
+//     }
+
+//     10
+// }
+// -------------------------------------------------------------------
 
 // Number - 3
 #[must_use]
-pub fn kids_with_candies(candies: &[i32], extra_candies: i32) -> Vec<bool> {
-    let max_candies = candies.iter().max();
-
-    let c = match max_candies {
-        Some(v) => v,
-        None => {
-            format!("Something is wrong.");
-            &0
-        }
-    };
-
-    candies
-        .iter()
-        .map(|&candy| candy + extra_candies >= *c)
-        .collect()
+pub fn kids_with_candies(candies: &[i32], extra_candies: i32) -> Result<Vec<bool>, String> {
+    if let Some(v) = candies.iter().max() {
+        Ok(candies
+            .iter()
+            .map(|&candy| candy + extra_candies >= *v)
+            .collect())
+    } else {
+        Err(format!(
+            "{:?} There is none of max value in candies. Something is wrong.",
+            candies
+        ))
+    }
 }
 
 // Number - 4
