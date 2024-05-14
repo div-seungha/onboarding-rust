@@ -7,10 +7,13 @@ pub fn defang_i_paddr(address: &str) -> String {
 // String - 2
 #[must_use]
 pub fn num_jewels_in_stones(jewels: &str, stones: &str) -> usize {
-    let mut ans = stones.chars().collect::<Vec<char>>();
-    ans.retain(|x| *x == jewels.chars().next().unwrap());
+    let mut ans = 0;
 
-    ans.len()
+    for jewel in jewels.chars() {
+        ans += stones.chars().filter(|&stone| stone == jewel).count();
+    }
+
+    ans
 }
 
 // String - 3
@@ -56,7 +59,10 @@ pub fn count_matches(items: Vec<Vec<String>>, rule_key: &str, rule_value: &str) 
         "type" => 0,
         "color" => 1,
         "name" => 2,
-        _ => panic!("Something is wrong."),
+        _ => {
+            format!("The rule_key of this input is wrong. The rule_key must be one of these values: 'type', 'color', or 'name'.");
+            0
+        }
     };
 
     items.iter().filter(|item| item[idx] == rule_value).count()
