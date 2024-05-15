@@ -22,25 +22,24 @@ pub fn minimum_sum(num: i32) -> Result<i32, String> {
 
 // Number - 2 - for
 pub fn num_identical_pairs_with_for(nums: Vec<u32>) -> u32 {
-    let mut map = HashMap::new();
+    let mut map: HashMap<u32, u32> = HashMap::new();
     let mut count = 0;
 
     for &num in &nums {
-        let entry = map
+        let _entry = map
             .entry(num)
             .and_modify(|e| {
                 count += *e;
                 *e += 1
             })
-            .or_insert(0);
-        if *entry == 0 {
-            *entry += 1;
-        }
+            .or_insert_with(|| {
+                count += 0;
+                1
+            });
     }
 
     count
 }
-// -------------------------------------------------------------------
 
 // Number - 3
 #[must_use]
