@@ -3,22 +3,37 @@ use std::collections::HashMap;
 // encode-decode - 1
 #[must_use]
 pub fn decode(encoded: &[i32], first: i32) -> Vec<i32> {
-    encoded.iter().fold(vec![first], |mut acc, &x| {
-        let last = acc.last().cloned();
-        let v = match last {
-            Some(v) => v,
-            None => 0,
-        };
-        acc.push(v ^ x);
-        acc
-    })
+    let mut ans = vec![first];
+    encoded
+        .iter()
+        .scan(first, |v, &x| {
+            let current = *v ^ x;
+            *v = current;
+            Some(current)
+        })
+        .for_each(|v| ans.push(v));
+
+    ans
 }
 
 // encode-decode - 2
 #[must_use]
 pub fn decompress_rl_elist(nums: &[i32]) -> Vec<i32> {
     nums.chunks(2)
-        .flat_map(|chunk| vec![chunk[1]; chunk[0] as usize])
+        .flat_map(|chunk| {
+            let length: Result<usize, _> = chunk[0].try_into();
+
+            match length {
+                Ok(v) => vec![chunk[1]; v],
+                Err(err) => {
+                    println!(
+                        "{:?} The number of i32 type cannot convert to usize type. This function will return an empty vector.",
+                        err
+                    );
+                    vec![]
+                }
+            }
+        })
         .collect()
 }
 
@@ -49,10 +64,7 @@ pub fn decode_message(key: &str, message: &str) -> String {
     message
         .as_bytes()
         .iter()
-        .map(|c| match d.get(c) {
-            Some(v) => v,
-            None => &' ',
-        })
+        .map(|c| d.get(c).unwrap_or(&' '))
         .collect()
 }
 
@@ -74,12 +86,14 @@ impl ListNode {
 }
 
 #[must_use]
-pub fn get_decimal_value(head: &Option<Box<ListNode>>) -> i32 {
+pub fn get_decimal_value(head: &[i32]) -> i32 {
     let mut vec_n = vec![];
-    let _v = head.iter().map(|x| {
-        let x = if x.val == 1 { "1" } else { "0" };
-        vec_n.push(x);
-        x
+    let _v = head.iter().for_each(|x| {
+        if *x == 1 {
+            vec_n.push("1");
+        } else {
+            vec_n.push("0");
+        }
     });
 
     let decimal_result = i32::from_str_radix(&vec_n.join(""), 2);
@@ -87,7 +101,7 @@ pub fn get_decimal_value(head: &Option<Box<ListNode>>) -> i32 {
     match decimal_result {
         Ok(num) => num,
         Err(err) => {
-            println!("Something is wrong_{:?}", err);
+            println!("{:?} There is a problem to parse String type value to i32 number type. This function will return 0.", err);
             0
         }
     }
