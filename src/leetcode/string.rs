@@ -29,27 +29,19 @@ pub fn most_words_found(sentences: Vec<String>) -> Result<usize, String> {
 // String - 4
 #[must_use]
 pub fn sort_sentence(s: &str) -> String {
-    let mut words: Vec<&str> = vec![""; s.split_whitespace().count()];
+    let mut a = s.split_whitespace().collect::<Vec<&str>>();
+    a.sort_by_key(|v| {
+        v.chars()
+            .last()
+            .expect("Each word has a fixed length. It must be return the last character.")
+            .to_digit(10)
+            .expect("The last character of each word must be a decimal number.")
+    });
 
-    s.split_whitespace()
-        .map(|word| {
-            let a = word.chars().last();
-            let b = (match a {
-                Some(v) => v,
-                None => ' ',
-            })
-            .to_digit(10);
-
-            let c = match b {
-                Some(v) => v as usize,
-                None => 0,
-            };
-
-            (&word[..word.len() - 1], c - 1)
-        })
-        .for_each(|(word, i)| words[i] = word);
-
-    words.join(" ")
+    a.iter()
+        .map(|word| &word[..word.len() - 1])
+        .collect::<Vec<&str>>()
+        .join(" ")
 }
 
 // String - 5
