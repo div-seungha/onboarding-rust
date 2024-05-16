@@ -46,16 +46,17 @@ pub fn sort_sentence(s: &str) -> String {
 
 // String - 5
 #[must_use]
-pub fn count_matches(items: Vec<Vec<String>>, rule_key: &str, rule_value: &str) -> usize {
+pub fn count_matches(
+    items: Vec<Vec<String>>,
+    rule_key: &str,
+    rule_value: &str,
+) -> Result<usize, String> {
     let idx = match rule_key {
         "type" => 0,
         "color" => 1,
         "name" => 2,
-        _ => {
-            format!("The rule_key of this input is wrong. The rule_key must be one of these values: 'type', 'color', or 'name'.");
-            0
-        }
+        _ => return Err(format!("{}: The rule_key is invalid. The rule_key must be one of these values: 'type', 'color', or 'name'.", rule_key)),
     };
 
-    items.iter().filter(|item| item[idx] == rule_value).count()
+    Ok(items.iter().filter(|item| item[idx] == rule_value).count())
 }
