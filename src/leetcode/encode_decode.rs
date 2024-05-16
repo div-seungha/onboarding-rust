@@ -3,7 +3,6 @@ use std::collections::HashMap;
 // encode-decode - 1
 #[must_use]
 pub fn decode(encoded: &[i32], first: i32) -> Vec<i32> {
-    let mut ans = vec![first];
     encoded
         .iter()
         .scan(first, |v, &x| {
@@ -11,9 +10,7 @@ pub fn decode(encoded: &[i32], first: i32) -> Vec<i32> {
             *v = current;
             Some(current)
         })
-        .for_each(|v| ans.push(v));
-
-    ans
+        .collect()
 }
 
 // encode-decode - 2
