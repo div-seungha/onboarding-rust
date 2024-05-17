@@ -26,16 +26,7 @@ pub fn num_identical_pairs_with_for(nums: Vec<u32>) -> u32 {
     let mut count = 0;
 
     for &num in &nums {
-        let _entry = map
-            .entry(num)
-            .and_modify(|e| {
-                count += *e;
-                *e += 1
-            })
-            .or_insert_with(|| {
-                count += 0;
-                1
-            });
+        count += *map.entry(num).and_modify(|e| *e += 1).or_insert(0)
     }
 
     count
@@ -51,7 +42,7 @@ pub fn kids_with_candies(candies: &[i32], extra_candies: i32) -> Result<Vec<bool
             .collect())
     } else {
         Err(format!(
-            "{:?} To solve this problem, the first input must have one maximum value. There is none of one maximum value in candies.",
+            "{:?} To solve this problem, the first input must not be empty and at least have one maximum value. There is none of one maximum value in candies.",
             candies
         ))
     }
@@ -63,13 +54,8 @@ pub fn subtract_product_and_sum(n: i32) -> i32 {
     let digits: Vec<i32> = n
         .to_string()
         .chars()
-        .filter_map(|c| {
-            Some(
-                c.to_digit(10)
-                    .map(|v| v as i32)
-                    .expect("Returns None, Something is wrong."),
-            )
-        })
+        .filter_map(|c|
+            Some(c.to_digit(10).and_then(|v| i32::try_from(v).ok()).expect("Failed to convert character to digit. You may have to check the input of this function.")))
         .collect::<Vec<i32>>();
 
     let product: i32 = digits.iter().product();
