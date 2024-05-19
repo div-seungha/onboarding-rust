@@ -51,11 +51,10 @@ pub fn number_of_matches(n: i32) -> i32 {
 // iter - 5
 #[must_use]
 pub fn min_moves_to_seat(seats: Vec<i32>, students: Vec<i32>) -> i32 {
-    let mut seats_m = seats;
-    let mut students_m = students;
+    let (mut seats_m, mut students_m) = (seats, students);
 
-    seats_m.sort();
-    students_m.sort();
+    seats_m.sort_unstable();
+    students_m.sort_unstable();
 
     seats_m
         .iter()

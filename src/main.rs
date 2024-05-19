@@ -74,11 +74,7 @@ fn main() {
         println!("*****Iterations****************************");
         println!(
             "Answer 1: {:?}",
-            final_value_after_operations(vec![
-                "--X".to_string(),
-                "X++".to_string(),
-                "X++".to_string()
-            ])
+            final_value_after_operations(vec!["--X", "X++", "X++"])
         );
         println!("Answer 2: {:?}", number_of_steps(14));
         println!(
