@@ -19,18 +19,16 @@ pub fn num_jewels_in_stones(jewels: &str, stones: &str) -> usize {
 // String - 3
 #[must_use]
 pub fn most_words_found(sentences: Vec<String>) -> Result<usize, String> {
-    if let Some(v) = sentences.iter().map(|x| x.split_whitespace().count()).max() {
-        Ok(v)
-    } else {
-        Err(format!("The maximum number of words that appear in a single sentence is not exist. Check the input."))
-    }
+    sentences.iter().map(|x| x.split_whitespace().count()).max().ok_or("The maximum number of words that appear in a single sentence is not exist. Check the input.").map_err(|v| v.to_string())
+    // map_err 대신 ok_or_else를 사용한 풀이
+    // sentences.iter().map(|x| x.split_whitespace().count()).max().ok_or_else(|| "The maximum number of words that appear in a single sentence is not exist. Check the input.".to_string())
 }
 
 // String - 4
 #[must_use]
 pub fn sort_sentence(s: &str) -> String {
     let mut a = s.split_whitespace().collect::<Vec<&str>>();
-    a.sort_by_key(|v| {
+    a.sort_unstable_by_key(|v| {
         v.chars()
             .last()
             .expect("Each word has a fixed length. It must be return the last character.")
@@ -39,7 +37,10 @@ pub fn sort_sentence(s: &str) -> String {
     });
 
     a.iter()
-        .map(|word| &word[..word.len() - 1])
+        .map(|word| {
+            word.get(..word.len() - 1)
+                .expect("Each word must have at least one character to exclude the last character.")
+        })
         .collect::<Vec<&str>>()
         .join(" ")
 }
@@ -58,5 +59,17 @@ pub fn count_matches(
         _ => return Err(format!("{}: The rule_key is invalid. The rule_key must be one of these values: 'type', 'color', or 'name'.", rule_key)),
     };
 
-    Ok(items.iter().filter(|item| item[idx] == rule_value).count())
+    Ok(items
+        .iter()
+        .filter(|item| {
+            let v = match item.get(idx) {
+                Some(v) => v,
+                None => {
+                    println!("");
+                    ""
+                }
+            };
+            v == rule_value
+        })
+        .count())
 }
