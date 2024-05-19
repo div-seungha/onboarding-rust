@@ -3,15 +3,16 @@ use std::collections::HashMap;
 // encode-decode - 1
 #[must_use]
 pub fn decode(encoded: &[i32], first: i32) -> Vec<i32> {
-    encoded
-        .iter()
-        .scan(first, |v, &x| {
-            let current = *v ^ x;
-            *v = current;
-            Some(current)
-        })
-        .collect()
+    let mut ans = vec![first];
+    ans.extend(encoded.iter().scan(first, |state, &x| {
+        *state ^= x;
+        Some(*state)
+    }));
+    ans
 }
+
+// (나를 위한 메모)
+// `extend`는 원본 컬렉션을 직접 변경한다,`concat`은 여러 컬렉션의 요소를 새로운 컬렉션으로 결합하여 반환한다
 
 // encode-decode - 2
 #[must_use]
