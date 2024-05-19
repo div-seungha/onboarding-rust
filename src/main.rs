@@ -110,10 +110,7 @@ fn main() {
                 "vkbs bs t suepuv"
             )
         );
-        println!(
-            "Answer 5: {:?}",
-            get_decimal_value(&Option::<Box<ListNode>>::None)
-        );
+        println!("Answer 5: {:?}", get_decimal_value(&[1, 0, 1]));
     }
 
     print_vector_answer();

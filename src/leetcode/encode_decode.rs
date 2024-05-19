@@ -3,43 +3,49 @@ use std::collections::HashMap;
 // encode-decode - 1
 #[must_use]
 pub fn decode(encoded: &[i32], first: i32) -> Vec<i32> {
-    let mut first_m = first;
-    let mut arr = vec![first_m];
-    for i in 0..encoded.len() {
-        arr.push(first_m ^ encoded[i]);
-        first_m = arr[i + 1];
-    }
-    arr
+    let mut ans = vec![first];
+    ans.extend(encoded.iter().scan(first, |state, &x| {
+        *state ^= x;
+        Some(*state)
+    }));
+    ans
 }
+
+// (나를 위한 메모)
+// `extend`는 원본 컬렉션을 직접 변경한다,`concat`은 여러 컬렉션의 요소를 새로운 컬렉션으로 결합하여 반환한다
 
 // encode-decode - 2
 #[must_use]
 pub fn decompress_rl_elist(nums: &[i32]) -> Vec<i32> {
-    let n = nums.len() / 2;
-    let mut ans = vec![];
-    for i in 0..n {
-        for _ in 0..nums[2 * i] {
-            ans.push(nums[2 * i + 1]);
-        }
-    }
-    ans
+    nums.chunks(2)
+        .flat_map(|chunk| {
+            let length: Result<usize, _> = chunk[0].try_into();
+
+            match length {
+                Ok(v) => vec![chunk[1]; v],
+                Err(err) => {
+                    println!(
+                        "{:?} The number of i32 type cannot convert to usize type. This function will return an empty vector.",
+                        err
+                    );
+                    vec![]
+                }
+            }
+        })
+        .collect()
 }
 
-// encode-decode - 3 --> 정답 아님
+// encode-decode
 #[must_use]
-pub fn restore_string(s: &str, indices: &[i32]) -> String {
-    let mut ans = vec![""; indices.len()];
-    let mut s_vec: Vec<&str> = s.split("").collect();
+pub fn restore_string(s: &str, indices: &[usize]) -> String {
+    let mut shuffled = vec![' '; s.len()];
 
-    s_vec.pop();
-    s_vec.drain(0..1);
+    indices
+        .iter()
+        .zip(s.chars())
+        .for_each(|(&index, ch)| shuffled[index] = ch);
 
-    for i in 0..indices.len() - 1 {
-        let idx: usize = indices[i].try_into().unwrap();
-        ans[idx] = s_vec[i];
-    }
-
-    ans.join("")
+    shuffled.into_iter().collect()
 }
 
 // encode-decode - 4
@@ -78,12 +84,23 @@ impl ListNode {
 }
 
 #[must_use]
-pub fn get_decimal_value(head: &Option<Box<ListNode>>) -> i32 {
-    let mut ans = 0;
-    let mut cur = head;
-    while let Some(node) = cur {
-        ans = (ans << 1) | node.val;
-        cur = &node.next;
+pub fn get_decimal_value(head: &[i32]) -> i32 {
+    let mut vec_n = vec![];
+    let _v = head.iter().for_each(|x| {
+        if *x == 1 {
+            vec_n.push("1");
+        } else {
+            vec_n.push("0");
+        }
+    });
+
+    let decimal_result = i32::from_str_radix(&vec_n.join(""), 2);
+
+    match decimal_result {
+        Ok(num) => num,
+        Err(err) => {
+            println!("{:?} There is a problem to parse String type value to i32 number type. This function will return 0.", err);
+            0
+        }
     }
-    ans
 }
