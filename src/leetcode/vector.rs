@@ -52,3 +52,19 @@ pub fn shuffle(nums: &[i32]) -> Vec<i32> {
         .flat_map(|x| vec![nums[x], nums[x + nums.len() / 2]])
         .collect()
 }
+
+#[test]
+fn test_get_concatenation() {
+    let param = [1, 2, 3, 4, 5];
+    let result = get_concatenation(&param);
+
+    assert_eq!(result, [1, 2, 3, 4, 5, 1, 2, 3, 4, 5])
+}
+
+#[test]
+fn test_suffle() {
+    let param = [1, 2, 3, 4, 5].as_slice();
+    let result = shuffle(param);
+
+    assert_eq!(result, [1, 3, 2, 4])
+}
